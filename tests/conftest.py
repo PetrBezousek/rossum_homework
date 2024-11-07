@@ -2,6 +2,7 @@ import pytest
 
 from app import app
 
+
 @pytest.fixture
 def client():
     # Set up the Flask test client

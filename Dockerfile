@@ -17,7 +17,7 @@ RUN python3 -m venv $POETRY_VENV \
 	&& $POETRY_VENV/bin/pip install poetry==${POETRY_VERSION}
 
 # Create a new stage from the base python image
-FROM python-base AS example-app
+FROM python-base AS rossum-homework
 
 # Copy Poetry to app image
 COPY --from=poetry-base ${POETRY_VENV} ${POETRY_VENV}
@@ -41,4 +41,4 @@ COPY . /app
 
 # Run Application
 EXPOSE 5000
-CMD [ "poetry", "run", "python", "-m", "flask", "run", "--host=0.0.0.0" ]
+CMD [ "poetry", "run", "python", "-m", "flask", "-e", ".env", "run", "--host=0.0.0.0" ]

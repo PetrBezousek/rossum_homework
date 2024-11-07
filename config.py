@@ -1,14 +1,32 @@
-class Config:
-    """Base config, uses staging database server."""
-    DEBUG = False
-    USERNAME = ''
+import logging
+import os
+import sys
 
-class ProductionConfig(Config):
-    """Uses production database server."""
-    DB_SERVER = '192.168.19.32'
+import structlog
 
-class DevelopmentConfig(Config):
-    DB_SERVER = 'localhost'
+EXPORT_USERNAME = os.getenv("EXPORT_USERNAME")
+EXPORT_PASSWORD = os.getenv("EXPORT_PASSWORD")
 
-class TestingConfig(Config):
-    DB_SERVER = 'localhost'
+ROSSUM_USERNAME = os.getenv("ROSSUM_USERNAME")
+ROSSUM_PASSWORD = os.getenv("ROSSUM_PASSWORD")
+
+
+def configure_structlog():
+    # Configure basic logging for structlog
+    logging.basicConfig(
+        format="%(message)s",
+        stream=sys.stdout,
+        level=logging.INFO,
+    )
+
+    # Structlog configuration
+    structlog.configure(
+        processors=[
+            structlog.processors.TimeStamper(fmt="iso"),  # Adds an ISO timestamp
+            structlog.processors.JSONRenderer(),  # Renders logs as JSON
+        ],
+        context_class=dict,  # Use dictionaries for context
+        logger_factory=structlog.stdlib.LoggerFactory(),  # Use standard library logger
+        wrapper_class=structlog.stdlib.BoundLogger,  # Wrap logger for better compatibility
+        cache_logger_on_first_use=True,  # Cache logger for performance
+    )

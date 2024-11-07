@@ -18,6 +18,7 @@ Here is a result of my work on the Rossum assignment.
 ### Testing the endpoint
 
 - `curl http://127.0.0.1:5000/export -d '{"annotation_id": 4843589, "queue_id": 1411574}' -H "Authorization: Basic bXlVc2VyMTIzOnNlY3JldFNlY3JldA==" -H "Content-Type: application/json"`
+    - Note: The IP address might be different (e.g. http://172.17.0.3:5000), check the startup logs of the server
 
 ## 📝 Dev notes
 
